@@ -1,11 +1,12 @@
 FROM node:18-alpine as base
 WORKDIR /src
 COPY package*.json ./
+COPY .env ./
+COPY .gitignore ./
 
 FROM base as production
 ENV NODE_ENV=production
 RUN npm ci
-EXPOSE 3001
 COPY ./*.js ./
 CMD ["node", "index.js"]
  
@@ -16,6 +17,5 @@ RUN chmod +x /bin/wait-for-it.sh
  
 ENV NODE_ENV=development
 RUN npm install
-EXPOSE 3001
 COPY ./*.js ./
 CMD ["node", "index.js"]
