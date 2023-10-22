@@ -16,11 +16,9 @@ services:
     container_name: 'shipping_service'
     ports:
         - 3001:3001
-    volumes:
-      - .:/src
     depends_on:
       - "rabbitmq"
-    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node ../shipping-service/index.js'
+    command: sh -c 'npm install && /bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node index.js'
     environment:
       NODE_ENV: production
       AMQP_URL: amqp://guest:guest@rabbitmq:5672
@@ -31,11 +29,9 @@ services:
     container_name: 'order_service'
     ports:
         - 3000:3000
-    volumes:
-      - .:/src
     depends_on:
       - "rabbitmq"
-    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node ../order-service/index.js'
+    command: sh -c 'npm install && /bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node index.js'
     environment:
       NODE_ENV: production
       AMQP_URL: amqp://guest:guest@rabbitmq:5672
